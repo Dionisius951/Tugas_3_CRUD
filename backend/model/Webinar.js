@@ -23,10 +23,9 @@ const createData = async ({ title, detail, date, link }) => {
 const updateData = async (body, params) => {
   try {
     const { id } = params;
-    const { title, detail, date, link } = body; // Data dari request body
-    const convID = parseInt(id); // Pastikan ID adalah angka
+    const { title, detail, date, link } = body;
+    const convID = parseInt(id);
 
-    // Ambil data lama dari database
     const fetchQuery = "SELECT * FROM `webinar` WHERE `id` = ?";
     const [response] = await webinar.query(fetchQuery, [convID]);
 
@@ -39,7 +38,6 @@ const updateData = async (body, params) => {
     const updatedDate = date ?? response[0].date;
     const updatedLink = link ?? response[0].link;
 
-    // Query untuk update
     const updateQuery =
       "UPDATE `webinar` SET `title` = ?, `detail` = ?, `date` = ?, `link` = ? WHERE `id` = ? ";
     const [result] = await webinar.query(updateQuery, [
@@ -56,9 +54,24 @@ const updateData = async (body, params) => {
     throw new Error("Terjadi kesalahan saat memperbarui data.");
   }
 };
+const deleteData = async (params) => {
+  try {
+    const { id } = params;
+    const convID = parseInt(id); 
+
+    const sql = 'DELETE FROM `webinar` WHERE `id` = "?"';
+    const [result] = await webinar.query(sql, [convID])
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    throw new Error("Terjadi kesalahan saat memperbarui data.");
+  }
+};
 
 module.exports = {
   getData,
   createData,
   updateData,
+  deleteData,
 };

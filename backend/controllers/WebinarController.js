@@ -1,4 +1,4 @@
-const { getData, createData, updateData } = require("../model/Webinar");
+const { getData, createData, updateData, deleteData } = require("../model/Webinar");
 
 const getWebinar = async (req, res) => {
   try {
@@ -42,9 +42,23 @@ const updateWebinar = async (req, res) => {
     });
   }
 };
+const deleteWebinar = async (req, res) => {
+  try {
+    const data = await deleteData(req.params)
+    res.status(200).json({
+      message: "Berhasil Menghapus Webinar",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Terjadi Error Ketika Mengupdate Data",
+    });
+  }
+};
 
 module.exports = {
   getWebinar,
   createWebinar,
   updateWebinar,
+  deleteWebinar
 };
