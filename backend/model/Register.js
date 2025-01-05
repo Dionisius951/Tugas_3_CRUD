@@ -9,16 +9,15 @@ const getRegister = async () => {
   }
 };
 
-const createRegister = async ({ user_id, webinar_id, date_register}) => {
+const createRegister = async ({ webinar_id, date_register, name, email}) => {
 
-  const user = parseInt(user_id)
   const webinarID = parseInt(webinar_id)
 
   try {
     const sql =
-      "INSERT INTO `registration`(`user_id`, `webinar_id`, `date_register`) VALUES (?, ?, ?)";
+      "INSERT INTO `registration`( `webinar_id`, `date_register`, `name`, `email`) VALUES (?, ?, ?, ?)";
 
-    const [result] = await webinar.query(sql, [user, webinarID, date_register]);
+    const [result] = await webinar.query(sql, [webinarID, date_register, name, email]);
     return result;
   } catch (err) {
     console.log(err);
